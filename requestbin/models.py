@@ -15,6 +15,8 @@ from requestbin import config
 
 class Bin(object):
     max_requests = config.MAX_REQUESTS
+    bin_ttl = config.BIN_TTL
+    max_raw_size = config.MAX_RAW_SIZE
 
     def __init__(self, private=False):
         self.created = time.time()

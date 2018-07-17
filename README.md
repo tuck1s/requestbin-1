@@ -29,6 +29,23 @@ Set an environment variable to indicate production:
 
 `$ heroku config:set REALM=prod`
 
+### Capacity settings
+Optionally, set one or more of the following env vars to control the capacity of your instance.
+These can also be set via the push-button "Deploy" sequence above.
+
+```
+$ heroku config:set BIN_TTL=15552000
+$ heroku config:set MAX_RAW_SIZE=31457280
+$ heroku config:set MAX_REQUESTS=100
+```
+
+|Variable|Purpose|
+|---|---|
+|`BIN_TTL`|Time to live for for each bin (seconds). Default when omitted is 172800 (=48 hours)|
+|`MAX_RAW_SIZE`| Maximum raw size of requests that will be stored (bytes).  Default when omitted is 10240 bytes|
+|`MAX_REQUESTS`| Maximum number of requests Held in each bin. Default when omitted is 20|
+
+
 Now just deploy via git:
 
 `$ git push heroku master`

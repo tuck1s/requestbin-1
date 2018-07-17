@@ -7,8 +7,20 @@
   "keywords": ["python"],
   "env": {
     "REALM": {
-      "description": "The number of processes to run.",
+      "description": "Whether running in local debug mode, or in prod (which expects Redis storage)",
       "value": "prod"
+    },
+    "BIN_TTL": {
+      "description": "Time to live for for each bin (seconds). Default is 172800 (=48 hours)",
+      "required": false
+    },
+    "MAX_RAW_SIZE": {
+      "description": "Maximum raw size of requests that will be stored (bytes).  Default is 10240 bytes",
+      "required": false
+    },
+    "MAX_REQUESTS": {
+      "description": "Maximum number of requests Held in each bin. Default is 20",
+      "required": false
     }
   },
   "addons": [
