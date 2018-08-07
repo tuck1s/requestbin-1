@@ -192,7 +192,7 @@ public class RequestBinTutorial {
       </div>
       <div id="collapse-{{request.id}}-Raw" class="accordion-body collapse in">
         <div class="accordion-inner">
-          <pre class="body prettyprint">{%if request.raw%}{{request.raw}}{%else%}<em>None</em>{%endif%}</pre>
+          <pre class="body prettyprint">{{ request.get_raw() or "<em>None</em>" }}</pre>
         </div>
       </div>
     </div>
@@ -204,14 +204,7 @@ public class RequestBinTutorial {
       </div>
       <div id="collapse-{{request.id}}-JSON" class="accordion-body collapse">
         <div class="accordion-inner">
-          <pre class="body prettyprint" id="json-{{request.id}}"></pre>
-          <script>
-            function jsonify(x) {
-              return x;
-            }
-            // TODO: check if input vars are defined
-            document.getElementById("json-{{request.id}}").innerHTML = jsonify("{}");
-          </script>
+          <pre class="body prettyprint">{{ request.get_raw(jsonfmt=True) or "<em>None</em>" }}</pre>
         </div>
       </div>
     </div>

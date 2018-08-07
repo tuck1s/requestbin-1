@@ -112,6 +112,21 @@ class Request(object):
             content_type=self.content_type,
         )
 
+    def get_raw(self, jsonfmt=None):
+        if self.raw:
+            if jsonfmt:
+                try:
+                    if self.content_type == 'application/json':
+                        return json.dumps(json.loads(self.raw), indent=4)
+                    else:
+                        return self.raw.rstrip()
+                except Exception as e:
+                    return e.message
+            else:
+                return self.raw.rstrip()
+        else:
+            return None
+
     @property
     def created(self):
         return datetime.datetime.fromtimestamp(self.time)
