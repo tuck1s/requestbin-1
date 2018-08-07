@@ -152,40 +152,69 @@ public class RequestBinTutorial {
 
 {% macro message_detail(request) %}
 <div id="request-detail-{{request.id}}" class="request-detail">
-    <div class="row-fluid">
-      <div class="span4">
-        <h5>FORM/POST PARAMETERS</h5>
-        {% for k,v in request.form_data %}
-          <p class="keypair"><strong>{{k}}:</strong> {{v}}</p>
-        {% else %}
-          <em>None</em>
-        {% endfor %}
+  <div class="row-fluid">
+    <div class="span4">
+      <h5>FORM/POST PARAMETERS</h5>
+      {% for k,v in request.form_data %}
+        <p class="keypair"><strong>{{k}}:</strong> {{v}}</p>
+      {% else %}
+        <em>None</em>
+      {% endfor %}
 
-        {% if request.query_string and not request.query_string is string %}
-          <h5>QUERYSTRING</h5>
-          {% for k,v in request.query_string|dictsort: %}
-            {% if not v %}
-              <p class="keypair"><strong>{{k}}</strong></p>
-            {% else %}
-              <p class="keypair"><strong>{{k}}:</strong> {{v}}</p>
-            {% endif %}
-          {% endfor %} 
-        {% endif %}
+      {% if request.query_string and not request.query_string is string %}
+        <h5>QUERYSTRING</h5>
+        {% for k,v in request.query_string|dictsort: %}
+          {% if not v %}
+            <p class="keypair"><strong>{{k}}</strong></p>
+          {% else %}
+            <p class="keypair"><strong>{{k}}:</strong> {{v}}</p>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="span8">
+      {% if request.headers %}
+        <h5>HEADERS</h5>
+          {% for header in request.headers.items() %}
+            <p class="keypair"><strong>{{header.0}}:</strong> {{header.1|escape}}</p>
+          {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Use a collapsible accordion element to show raw and JSON formatted body as alternates -->
+  <div class="accordion" id="accordion-{{request.id}}">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-{{request.id}}" href="#collapse-{{request.id}}-Raw">
+          <h5>RAW BODY</h5>
+        </a>
       </div>
-      <div class="span8">
-        {% if request.headers %}
-          <h5>HEADERS</h5>
-            {% for header in request.headers.items() %}
-              <p class="keypair"><strong>{{header.0}}:</strong> {{header.1|escape}}</p>
-            {% endfor %}
-        {% endif %}
+      <div id="collapse-{{request.id}}-Raw" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <pre class="body prettyprint">{%if request.raw%}{{request.raw}}{%else%}<em>None</em>{%endif%}</pre>
+        </div>
       </div>
     </div>
-
-    <h5>RAW BODY</h5>
-    <div class="request-body" data-id="{{ request.id }}">
-<pre class="body prettyprint">{%if request.raw%}{{request.raw}}{%else%}<em>None</em>{%endif%}</pre>
-
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-{{request.id}}" href="#collapse-{{request.id}}-JSON">
+          <h5>JSON FORMATTED BODY</h5>
+        </a>
+      </div>
+      <div id="collapse-{{request.id}}-JSON" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <pre class="body prettyprint" id="json-{{request.id}}"></pre>
+          <script>
+            function jsonify(x) {
+              return x;
+            }
+            // TODO: check if input vars are defined
+            document.getElementById("json-{{request.id}}").innerHTML = jsonify("{}");
+          </script>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endmacro %}
