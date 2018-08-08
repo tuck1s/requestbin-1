@@ -1,5 +1,4 @@
 {% extends "layout.html" %}
-{% block title %}RequestBin - {{bin.name}}{% endblock %}
 {% block icon %}<link rel="shortcut icon" href="{{bin.favicon_uri}}" />{% endblock %}
 
 {% block sidebar %}{% endblock %}
@@ -182,31 +181,18 @@ public class RequestBinTutorial {
     </div>
   </div>
 
-  <!-- Use a collapsible accordion element to show raw and JSON formatted body as alternates -->
-  <div class="accordion" id="accordion-{{request.id}}">
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-{{request.id}}" href="#collapse-{{request.id}}-Raw">
-          <h5>RAW BODY</h5>
-        </a>
-      </div>
-      <div id="collapse-{{request.id}}-Raw" class="accordion-body collapse in">
-        <div class="accordion-inner">
-          <pre class="body prettyprint">{{ request.get_raw() or "<em>None</em>" }}</pre>
-        </div>
-      </div>
+  <!-- Use a dynamic tab element to show raw and JSON formatted body as alternates -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#raw-{{request.id}}">Raw</a></li>
+    <li><a data-toggle="tab" href="#json-{{request.id}}">Pretty JSON</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="raw-{{request.id}}" class="tab-pane in active">
+      <pre class="body prettyprint">{{ request.get_raw() or "None" }}</pre>
     </div>
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-{{request.id}}" href="#collapse-{{request.id}}-JSON">
-          <h5>JSON FORMATTED BODY</h5>
-        </a>
-      </div>
-      <div id="collapse-{{request.id}}-JSON" class="accordion-body collapse">
-        <div class="accordion-inner">
-          <pre class="body prettyprint">{{ request.get_raw(jsonfmt=True) or "<em>None</em>" }}</pre>
-        </div>
-      </div>
+    <div id="json-{{request.id}}" class="tab-pane">
+      <pre class="body prettyprint">{{ request.get_raw(jsonfmt=True) or "None" }}</pre>
     </div>
   </div>
 </div>
