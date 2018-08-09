@@ -189,10 +189,10 @@ public class RequestBinTutorial {
 
   <div class="tab-content">
     <div id="raw-{{request.id}}" class="tab-pane in active">
-      <pre class="body prettyprint">{{ request.get_raw() or "None" }}</pre>
+      <pre class="body message-output">{{ request.get_raw() or "None" }}</pre>
     </div>
     <div id="json-{{request.id}}" class="tab-pane">
-      <pre class="body prettyprint">{{ request.get_raw(jsonfmt=True) or "None" }}</pre>
+      <pre class="body message-output">{{ request.get_raw(jsonfmt=True) or "None" }}</pre>
     </div>
   </div>
 </div>
